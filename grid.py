@@ -1,7 +1,18 @@
 import math
 from collections import defaultdict, namedtuple
-
 from heuristics import Heuristic
+
+import heapq as hq
+
+class PriorityQueue(object):
+    def __init__(self, elements):
+        self.elements = []
+    def is_empty(self):
+        return not self.elements
+    def put(self, item, priority):
+        hq.heappush(self.elements, (priority, item))
+    def get(self):
+        return hq.heappop(self.elements)[1]
 
 Edge = namedtuple("Edge", ('weight'))
 
@@ -167,8 +178,11 @@ class PathScores(object):
 class A_Star(object):
     def __init__(self, NodeMap, start, finish):
         self.open = []
-        self.closed = []
+        
+        self.closed = {}
         self.heuristic = NodeMap.heuristic
+        self.open[start.iden] = 
+
         self.open[start] = f({'g':0, 'h':self.heuristic(start, finish)})
         self.finish = finish
     def run(self):
