@@ -1,6 +1,8 @@
 import math
 from collections import defaultdict, namedtuple
 
+from heuristics import Heuristic
+
 Edge = namedtuple("Edge", ('weight'))
 
 class Node(object):
@@ -65,55 +67,79 @@ class Node(object):
         return f"Node({self.iden})"
 
 class NodeMap(object):
+    """NodeMap at its most simplest is a container for all the nodes. It 
+    allows Nodes to inherit coordinates and a heuristic function to facilitate 
+    calculation of h-scores.
+    NodeMap.nodes = {iden: {node:node, ... }, 
+                     iden: {node:node, ... }, ... }
+    NodeMap.heuristic = f(node, node) = num
+
+    This is also where you'd put any dynamic node generation code.
+    """
     def __init__(self):
         pass
-    def calculate_neighbours(self, node):
+    def get(self, iden):
+        """Get a node by id. Must be implemented
+
+        Args:
+            iden (identifier): Any hashable identifier for a node
+
+        Returns:
+            node: node corresponding to iden if found, otherwise None
+        """
         return None
     
 
 class SquareGrid(NodeMap):
-    def __init__(self, width, height, walls=[]):
+    """A NodeMap made up of a square grid. Nodes are assigned iden of the tuple (x,y)
+
+    Args:
+        NodeMap ([type]): [description]
+    """
+    def __init__(self, width, height, walls=[], heuristic=Heuristic.grid_dist):
         self.height = height
         self.width = width
         self.walls = walls
-        self.nodes = []
+        self.nodes = dict() #defaultdict(namedtuple('NodeMap', ('node', 'x','y')))
+        self.new_node = namedtuple('NodeDetails', ('node', 'x','y'))
+        self.heuristic = heuristic
         self.generate_nodes()
     
-    def get_node_with_id(self, iden):
-        try:    
-            return next(filter(lambda x: x.iden==iden, self.nodes))
-        except StopIteration:
+    def get(self, iden):
+        try:
+            return self.nodes[iden].node
+        except KeyError as e:
+            return None
+        except TypeError as e:
             return None
 
-    def get_or_create_node_with_id(self, iden):
-        n = self.get_node_with_id(iden)
+    def get_or_create_node(self, x, y):
+        iden = (x,y)
+        n = self.get(iden)
         if n is None:
             n = Node(iden)
-            self.nodes.append(n)
+            self.add_node(n, x, y)
         return n
+    def add_node(self, node, x, y):
+        self.nodes[node.iden] = self.new_node(node, x, y)
 
     def generate_nodes(self):
         for y in range(self.height):
             for x in range(self.width):
-                n = self.get_or_create_node_with_id((x,y))
+                if (x,y) in self.walls:
+                    continue
+                n = self.get_or_create_node(x,y)
                 # self.calculate_neighbours(n)
                 for (nx, ny), weight in self.all_dirs(x,y):
                     if not (0<=nx<self.width and 0<=ny<self.height):
                         continue
                     if (nx,ny) in self.walls:
                         continue
-                    neighbour = self.get_or_create_node_with_id((nx, ny))
+                    neighbour = self.get_or_create_node(nx, ny)
                     n.add_neighbour(neighbour,weight)
     
     def calculate_neighbours(self, node):
-        x,y = node.iden
-        for (nx, ny), weight in self.all_dirs(x,y):
-            if not (0<=nx<self.width and 0<=ny<self.height):
-                continue
-            if (nx,ny) in self.walls:
-                continue
-            neighbour = self.get_or_create_node_with_id((nx, ny))
-            node.add_neighbour(neighbour,weight)
+        pass
 
     def all_dirs(self, x,y):
         sq2 = math.sqrt(2)
@@ -126,39 +152,27 @@ walls = [(1,1),(1,2),(1,3),(2,1),(3,1)]
 
 g = SquareGrid(5,5, walls=walls)
 
-class Heuristic(object):
-    @staticmethod 
-    def l2_norm(a, b):
-        x1,y1 = a.iden
-        x2,y2 = b.iden
-        return math.sqrt((x2-x1)**2+(y2-y1)**2)
-    @staticmethod
-    def l1_norm(a,b):
-        x1,y1 = a.iden
-        x2,y2 = b.iden
-        return abs(x1-x2)+abs(y1-y2)
-    @staticmethod
-    def grid_dist(a,b):
-        x1,y1 = a.iden
-        x2,y2 = b.iden
-        dx = abs(x2-x1)
-        dy = abs(y2-y1)
-        low = min(dx,dy)
-        dd = abs(dy-dx)
-        return low*math.sqrt(2) + dd
-
-def f(d):
-    d['f'] = d['g'] + d['h']
-    return d
+class PathScores(object):
+    def __init__(self):
+        pass
+    def g(self, g):
+        self.g = g
+    def h(self, h):
+        self.h = h
+    @property
+    def f(self):
+        return self.g+self.h
+    
 
 class A_Star(object):
-    def __init__(self, NodeMap, start, finish, heuristic=Heuristic.euclidean):
+    def __init__(self, NodeMap, start, finish):
         self.open = []
         self.closed = []
-        self.heuristic = heuristic
+        self.heuristic = NodeMap.heuristic
         self.open[start] = f({'g':0, 'h':self.heuristic(start, finish)})
         self.finish = finish
-    # def run(self):
+    def run(self):
+        pass
     #     loop
     #         current = min(self.open) -> pop
     #         closed.append(current)
@@ -174,4 +188,4 @@ class A_Star(object):
     #                     open.append(neighbour)
 
 
-print(Heuristic.grid_dist())
+# print(Heuristic.grid_dist())
