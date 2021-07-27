@@ -51,10 +51,14 @@ class Node(object):
         neighbour.neighbours[self]['weight'] = weight_backwards
         # self.neighbours.append((neighbour,weight))
         # neighbour.neighbours.append((self, weight))
-    def add_neighbour_oneway(self, neighbour, weight=1):
+    def add_neighbour_oneway(self, neighbour, weight=1, strict=False):
         if self.is_neighbour(neighbour):
-            return
+            if strict:
+                raise IndexError("Already a neighbour")
+            else:
+                return
         self.neighbours[neighbour]['weight'] = weight
+        
     def is_neighbour(self, neighbour):
         return neighbour in self.neighbours
     def __repr__(self):
