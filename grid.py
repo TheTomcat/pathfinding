@@ -1,5 +1,6 @@
 import math
 from collections import defaultdict, namedtuple
+from threading import current_thread
 from heuristics import Heuristic
 
 import heapq as hq
@@ -9,8 +10,8 @@ class PriorityQueue(object):
         self.elements = []
     def is_empty(self):
         return not self.elements
-    def put(self, item, priority):
-        hq.heappush(self.elements, (priority, item))
+    def put(self, item, priority, *args):
+        hq.heappush(self.elements, (priority, item, *args))
     def get(self):
         return hq.heappop(self.elements)[1]
 
@@ -99,6 +100,17 @@ class NodeMap(object):
             node: node corresponding to iden if found, otherwise None
         """
         return None
+    def heuristic(self, node_a, node_b):
+        """Heuristic function, should take two nodes and return the distance between them (or weight)
+
+        Args:
+            node_a (Node): Node 1
+            node_b (Node): Node 2
+
+        Returns:
+            heuristic: The distance (or heuristic) between the input points.
+        """
+        return None
     
 
 class SquareGrid(NodeMap):
@@ -112,13 +124,19 @@ class SquareGrid(NodeMap):
         self.width = width
         self.walls = walls
         self.nodes = dict() #defaultdict(namedtuple('NodeMap', ('node', 'x','y')))
-        self.new_node = namedtuple('NodeDetails', ('node', 'x','y'))
-        self.heuristic = heuristic
+        self.coordinates = dict()
+        # self.new_node = namedtuple('NodeDetails', ('node', 'x','y'))
+        self._heuristic = heuristic
         self.generate_nodes()
+
+    def heuristic(self, node_a, node_b):
+        a = self.coordinates[node_a]
+        b = self.coordinates[node_b]
+        return self._heuristic(a,b)
     
     def get(self, iden):
         try:
-            return self.nodes[iden].node
+            return self.nodes[iden]#.node
         except KeyError as e:
             return None
         except TypeError as e:
@@ -132,7 +150,8 @@ class SquareGrid(NodeMap):
             self.add_node(n, x, y)
         return n
     def add_node(self, node, x, y):
-        self.nodes[node.iden] = self.new_node(node, x, y)
+        self.nodes[node] = node #  self.new_node(node, x, y)
+        self.coordinates[node] = (x,y)
 
     def generate_nodes(self):
         for y in range(self.height):
@@ -149,8 +168,8 @@ class SquareGrid(NodeMap):
                     neighbour = self.get_or_create_node(nx, ny)
                     n.add_neighbour(neighbour,weight)
     
-    def calculate_neighbours(self, node):
-        pass
+    # def calculate_neighbours(self, node):
+    #     pass
 
     def all_dirs(self, x,y):
         sq2 = math.sqrt(2)
@@ -173,20 +192,32 @@ class PathScores(object):
     @property
     def f(self):
         return self.g+self.h
-    
 
 class A_Star(object):
-    def __init__(self, NodeMap, start, finish):
-        self.open = []
-        
-        self.closed = {}
-        self.heuristic = NodeMap.heuristic
-        self.open[start.iden] = 
+    def __init__(self, node_map, start, finish):
+        self.node_map = node_map
+        self.open = PriorityQueue()
+        self.open.put(start, 0)
+        self.came_from = {}
+        self.cost_so_far = {}
 
-        self.open[start] = f({'g':0, 'h':self.heuristic(start, finish)})
+        # self.open[start.iden] =
+
         self.finish = finish
+
     def run(self):
-        pass
+        while not self.open.is_empty():
+            active_node = self.open.get()
+            if active_node == self.finish:
+                break
+            for neighbour, attr in active_node.neighbours.items():
+                new_cost = self.cost_so_far[active_node] + attr['weight']
+                priority = new_cost + self.node_map.heuristic(neighbour, self.finish)
+                self.open.put(neighbour, priority)
+                self.came_from[neighbour] = active_node
+
+    
+
     #     loop
     #         current = min(self.open) -> pop
     #         closed.append(current)
