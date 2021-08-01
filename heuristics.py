@@ -19,4 +19,4 @@ class Heuristic(object):
         dy = abs(y2-y1)
         low = min(dx,dy)
         dd = abs(dy-dx)
-        return low*math.sqrt(2) + dd
+        return low*1.414 + dd

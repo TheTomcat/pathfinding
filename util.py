@@ -48,9 +48,9 @@ def dates_between(n: int, start: str, end: str, rng: Random, tformat: str="%Y-%m
         datetime.date: The date between start and end
     """
     d1 = dt.datetime.strptime(start, tformat).date()
-    d2 = dt.datetime.strptime(tformat).date()
+    d2 = dt.datetime.strptime(end, tformat).date()
     # i = (d2-d1).days * rng.uniform(0,1)
-    return [d1 + dt.timedelta(days=(d2-d1).days * rng.uniform(0,1)) for i in range(n)]
+    return [d1 + dt.timedelta(days=rng.randint(0,(d2-d1).days)) for i in range(n)]
 
 def ints_between(n: int, start: int, end: int, rng: Random) -> list:
     """Given a start and end, generate n integers in the range [start, end] inclusive.

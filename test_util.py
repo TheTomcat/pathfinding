@@ -12,8 +12,19 @@ class TestUtil(unittest.TestCase):
         n=1000
         d = util.dates_between(n,start,end,rng)
         c = Counter(d)
-        d1 = dt.datetime.strptime(start,"%Y-%m-%d")
-        d2 = dt.datetime.strptime(end,"%Y-%m-%d")
+        d1 = dt.datetime.strptime(start,"%Y-%m-%d").date()
+        d2 = dt.datetime.strptime(end,"%Y-%m-%d").date()
+        # print(d1,d2,d1 in c, d2 in c)
+        # print(c)
         self.assertTrue(d1 in c)
         self.assertTrue(d2 in c)
-        
+    def test_ints(self):
+        rng=Random()
+        start=0
+        end=100
+        n=1000
+        d = util.ints_between(n,start,end,rng)
+        c = Counter(d)
+        self.assertTrue(start in c)
+        self.assertTrue(end in c)
+    

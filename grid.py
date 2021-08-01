@@ -1,3 +1,4 @@
+from __future__ import annotations
 import math
 from collections import defaultdict, namedtuple
 from threading import current_thread
@@ -38,8 +39,10 @@ class Node(object):
     """
     def __init__(self, iden):
         self.iden=iden
-        self.neighbours = dict() #defaultdict(dict)
-    def __eq__(self, other: Node) -> bool:
+        self.neighbours = defaultdict(dict)
+    def __lt__(self, other) -> bool:
+        return self.iden < other.iden
+    def __eq__(self, other) -> bool:
         """Two nodes are equal if their identifiers are equal. 
 
         Args:
@@ -72,11 +75,13 @@ class Node(object):
                 raise NeighbourError("Already a neighbour")
             else:
                 return
-        self.neighbours[neighbour] = dict()
+        # self.neighbours[neighbour.iden] = dict()
         if weight_backwards is None:
             weight_backwards = weight_forwards
-        self.neighbours[neighbour]['weight'] = weight_forwards
-        neighbour.neighbours[self]['weight'] = weight_backwards
+        self.neighbours[neighbour.iden]['weight'] = weight_forwards
+        self.neighbours[neighbour.iden]['neighbour'] = neighbour
+        neighbour.neighbours[self.iden]['weight'] = weight_backwards
+        neighbour.neighbours[self.iden]['neighbour'] = self
         # self.neighbours.append((neighbour,weight))
         # neighbour.neighbours.append((self, weight))
     def set_weight(self, neighbour: Node, weight_forwards, set_reverse=True,weight_backwards=None):
@@ -98,19 +103,23 @@ class Node(object):
                 raise NeighbourError(f"{neighbour.iden} does not have {self.iden} as a neighbour (reverse)")
             if weight_backwards is None:
                 weight_backwards = weight_forwards
-        self.neighbours[neighbour]['weight'] = weight_forwards
+        self.neighbours[neighbour.iden]['weight'] = weight_forwards
         if set_reverse:
-            neighbour.neighbours[self]['weight'] = weight_backwards
+            neighbour.neighbours[self.iden]['weight'] = weight_backwards
+            # neighbour.neighbours[self.iden]['neighbour'] = self
+
     def add_neighbour_oneway(self, neighbour: Node, weight=1, strict=False):
         if self.is_neighbour(neighbour):
             if strict:
                 raise NeighbourError("Already a neighbour")
             else:
                 return
-        self.neighbours[neighbour]['weight'] = weight
+        self.neighbours[neighbour.iden]['weight'] = weight
+        self.neighbours[neighbour.iden]['neighbour'] = neighbour
         
     def is_neighbour(self, neighbour: Node) -> bool:
         return neighbour.iden in self.neighbours
+
     def __repr__(self):
         return f"Node({self.iden})"
 
@@ -165,9 +174,9 @@ class SquareGrid(NodeMap):
         self._heuristic = heuristic
         self.generate_nodes()
 
-    def heuristic(self, node_a_iden, node_b_iden):
-        a = self.coordinates[node_a_iden]
-        b = self.coordinates[node_b_iden]
+    def heuristic(self, node_a, node_b):
+        a = self.coordinates[node_a.iden]
+        b = self.coordinates[node_b.iden]
         return self._heuristic(a,b)
     
     def get(self, iden):
@@ -217,10 +226,21 @@ class SquareGrid(NodeMap):
                     ((x+1,y+0),1), ((x+1,y-1),sq2),
                     ((x+0,y-1),1), ((x-1,y-1),sq2),
                     ((x-1,y+0),1), ((x-1,y+1),sq2)]
-
-walls = [(1,1),(1,2),(1,3),(2,1),(3,1)]
-
-g = SquareGrid(5,5, walls=walls)
+    def ascii_print(self, path=None):
+        print("___" * self.width)
+        for y in range(self.height):
+            for x in range(self.width):
+                r = ' . '
+                try: 
+                    node = self.get((x,y))
+                    if node in path:
+                        r = ' @ '
+                except:
+                    r = '###'
+                # if node.iden in self.walls:
+                #     r = '###'
+                print(r, end="")
+            print()
 
 class PathScores(object):
     def __init__(self):
@@ -238,40 +258,47 @@ class A_Star(object):
         self.node_map = node_map
         self.open = PriorityQueue()
         self.open.put(start, 0)
-        self.came_from = dict()
-        self.cost_so_far = dict()
-
-        # self.open[start.iden] =
-
+        self.came_from = {start.iden:None}
+        self.cost_so_far = {start.iden:0}
         self.finish = finish
+        self.start = start
 
     def run(self):
         while not self.open.is_empty():
             active_node = self.open.get()
             if active_node == self.finish:
                 break
-            for neighbour_id, neighbour in active_node.neighbours.items():
-                new_cost = self.cost_so_far[active_node] + attr['weight']
-                priority = new_cost + self.node_map.heuristic(neighbour, self.finish)
-                self.open.put(neighbour, priority)
-                self.came_from[neighbour] = active_node
+            for neighbour_iden, attr in active_node.neighbours.items():
+                # print(attr)
+                neighbour = attr['neighbour']
+                new_cost = self.cost_so_far[active_node.iden] + attr['weight']
+                if neighbour.iden not in self.cost_so_far or new_cost < self.cost_so_far[neighbour.iden]:
+                    self.cost_so_far[neighbour.iden] = new_cost
+                    priority = new_cost + self.node_map.heuristic(neighbour, self.finish)
+                    self.open.put(neighbour, priority)
+                    self.came_from[neighbour.iden] = active_node
+    def reconstruct(self):
+        current = self.finish
+        path = []
+        while current != self.start:
+            path.append(current)
+            current = self.came_from[current.iden]
+        path.append(self.start)
+        path.reverse()
+        return path
 
-p = A_Star(g, g.get((0,0)), g.get((4,4)))
+
+
+walls = [(1,1),(1,2),(1,3),(2,1),(3,1)]
+
+walls = [(1, 7), (1, 8), (2, 7), (2, 8), (3, 7), (3, 8)]
+g = SquareGrid(10,10, walls=walls)#, heuristic=Heuristic.l1_norm)
+start = g.get((1,9))
+ne = g.get((2,9))
+start.set_weight(ne, 2)
+
+p = A_Star(g, g.get((1,9)), g.get((8,3)))
 p.run()
-
-    #     loop
-    #         current = min(self.open) -> pop
-    #         closed.append(current)
-    #         if current == self.finish:
-    #             return
-    #         for neighbour in current.neighbours:
-    #             if neighbour in closed:
-    #                 continue
-    #             if neighbour not in open or path(current, neighbour) < neighbour.f:
-    #                 neighbour.f
-    #                 neighbour.parent=current
-    #                 if neighbour not in open:
-    #                     open.append(neighbour)
-
-
-# print(Heuristic.grid_dist())
+g.ascii_print(path=p.reconstruct())
+print(f"Cost: {p.cost_so_far[p.finish.iden]}")
+# print(p.reconstruct())
