@@ -5,20 +5,21 @@
 from itertools import cycle
 from random import Random
 import datetime as dt
-import adj
+
+import utils.lexicon as lexicon
 
 ### Constants
 
 default_categories = {
-    'animals': adj.animals, #['cow', 'rabbit', 'duck', 'shrimp', 'pig', 'goat', 'crab', 'deer', 'bee', 'sheep', 'fish', 'turkey', 'dove', 'chicken', 'horse'],
+    'animals': lexicon.animals, #['cow', 'rabbit', 'duck', 'shrimp', 'pig', 'goat', 'crab', 'deer', 'bee', 'sheep', 'fish', 'turkey', 'dove', 'chicken', 'horse'],
     'names'  : ['James', 'Mary', 'Robert', 'Patricia', 'John', 'Jennifer', 'Michael', 'Linda', 'William', 'Elizabeth', 'Ahmed', 'Barbara', 'Richard', 'Susan', 'Salomon', 'Juan Luis'],
     'cities' : ['Stockholm', 'Denver', 'Moscow', 'Marseille', 'Palermo', 'Tokyo', 'Lisbon', 'Oslo', 'Nairobi', 'Río de Janeiro', 'Berlin', 'Bogotá', 'Manila', 'Madrid', 'Milwaukee'],
-    'colors' : adj.colours #['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple', 'pink', 'silver', 'gold', 'beige', 'brown', 'grey', 'black', 'white']
+    'colors' : lexicon.colours #['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple', 'pink', 'silver', 'gold', 'beige', 'brown', 'grey', 'black', 'white']
 }
 
 def make_username(rng: Random, dig=4) -> str:
-    adjectives = adj.adjectives
-    nouns = adj.nouns
+    adjectives = lexicon.adjectives
+    nouns = lexicon.nouns
     return rng.choice(adjectives).capitalize() + rng.choice(nouns).capitalize() + ''.join([str(rng.randint(0,9)) for d in range(dig)])
 
 default_ranges = {
@@ -153,8 +154,9 @@ def generate_fake_data(n: int, columns: str, column_names=None, ranges_override=
             # The only valid keys are 'ifdtbc'
         else:
             updated_ranges = {key: val for key, val in default_ranges.items()}
-        updated_ranges['c'] = (categories_cycler, updated_ranges['c'][1])
-        ranges_list = [updated_ranges[col] for col in columns] # The default ranges have been updated by the user
+        updated_ranges['c'] = (categories_cycler, updated_ranges['c'][1]) # type: ignore
+        ranges_list = [updated_ranges[col] for col in columns] # type: ignore 
+        # The default ranges have been updated by the user
         
     df = {}
     for column_type, column_name, interval in zip(columns, column_names, ranges_list):
