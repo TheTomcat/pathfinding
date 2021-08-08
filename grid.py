@@ -3,22 +3,9 @@ import math
 from collections import defaultdict, namedtuple
 from threading import current_thread
 from heuristics import Heuristic
+import uuid
 
-import heapq as hq
-
-class PriorityQueue(object):
-    """A priority queue.
-    """
-    def __init__(self, elements=None):
-        if elements is None:
-            elements = []
-        self.elements = elements
-    def is_empty(self):
-        return not self.elements
-    def put(self, item, priority, *args):
-        hq.heappush(self.elements, (priority, item, *args))
-    def get(self):
-        return hq.heappop(self.elements)[1]
+from utils.priority_queue import PriorityQueue
 
 Edge = namedtuple("Edge", ('weight'))
 
