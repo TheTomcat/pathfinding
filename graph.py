@@ -72,6 +72,12 @@ class Graph(object):
         self._nodes: Dict[ID, Node] = dict()
         self._weighted = weighted
         self._directed = directed
+    @property
+    def weighted(self):
+        return self._weighted
+    @property
+    def directed(self):
+        return self._directed
     def __iter__(self):
         return iter(self._nodes.values())
     def nodes_by_id(self) -> Generator[ID, None, None]:
@@ -185,6 +191,20 @@ class Graph(object):
                 if not directed:
                     g.add_edge(node_b_id, node_a_id, weight)
         return g
+    
+    @classmethod
+    def from_adjacency_list(cls, adj_list: Dict[str,Dict[str,float]], weighted: bool=True, directed:bool=True) -> 'Graph':
+        g = cls(weighted=weighted, directed=directed)
+        for node, adjacents in adj_list.items():
+            g.add_node(node)
+            for neighbour, weight in adjacents.items():
+                g.add_node(neighbour)
+                if weighted:
+                    g.add_edge(node, neighbour, weight)
+                else:
+                    g.add_edge(node, neighbour)
+        return g
+
 
 class Grid(Graph):
     """Construct a graph in a grid layout, omitting nodes in the list `walls`. Node ids are given by their integer coordinates as a 2-tuple.
@@ -321,7 +341,7 @@ def A_star(graph: Graph, start: Node, end: Node, heuristic: Optional[Heuristic]=
         ExtendedSearchResult: Dict[Node: {'parent':Node, 'weight':float, 'depth':int}]
         End: The end node
     """
-    queue = PriorityQueue()
+    queue = PriorityQueue[Node]()
     queue.put(start, 0)
     visited_from: SearchResult = {start: {'parent':None,'cost':0,'depth':0}}
     while not queue.is_empty():
@@ -410,26 +430,34 @@ def floyd_warshall_with_path(g: Graph):
 
     return dist, next
 
-def minimum_spanning_tree(g: Graph):
-    if g._directed:
+def prim_MST(g: Graph, start: Node) -> Tuple[Graph, float]:
+    if g.directed:
         raise GraphError("Cannot compute MST on a directed graph")
-def prim(g: Graph, start: Node):
-    if g._directed:
-        raise GraphError("Cannot compute MST on a directed graph")
-    mst = Graph(directed=False, weighted=g._weighted)
-    visited: Set[ID] = set(start.id)
-    current = start
-    edges = PriorityQueue()
+    mst = Graph(directed=False, weighted=g.weighted)
+    #visited: Set[ID] = set(start.id)
+    cost: float = 0
+    edges = PriorityQueue[Tuple[ID, ID]]()
     for to, weight in start.neighbours():
-        edges.put((current, to), weight)
+        edges.put((start.id, to.id), weight)
         # https://bradfieldcs.com/algos/graphs/prims-spanning-tree-algorithm/
+    mst.add_node(start.id)
     while not edges.is_empty():
-        edges
+        weight, (a_id, b_id) = edges.get_with_priority()
+        if b_id not in mst:
+            mst.add_node(b_id)
+            mst.add_edge(a_id, b_id, weight)
+            cost += weight
+            for neighbour, weight in g.get_node(b_id).neighbours():
+                if neighbour.id not in mst:
+                    edges.put((b_id, neighbour.id), weight)
+    return mst, cost
 
 def kruskal_MST(g: Graph, start: Node) -> Tuple[Graph, float]:
-    mst = Graph(weighted=True, directed=False)
-    dsu = disjoint_set.DisjointSet()
-    cost = 0
+    if g._directed:
+        raise GraphError("Cannot compute MST on a directed graph")
+    mst = Graph(weighted=g.weighted, directed=False)
+    dsu: disjoint_set.DisjointSet[Node] = disjoint_set.DisjointSet()
+    cost: float = 0
     # Create edge list
     edge_list = [(w,a,b) for (a,b,w) in g.edges()]
     edge_list.sort()
@@ -439,13 +467,10 @@ def kruskal_MST(g: Graph, start: Node) -> Tuple[Graph, float]:
             mst.add_node(a.id)
             mst.add_node(b.id)
             mst.add_edge(a.id, b.id, w)
-            dsu.merge(a,b)
+            dsu.union(a,b)
     return mst, cost
 
         
-
-
-
 # if __name__ == "__main__":
 #     ...
 edge_list = [('a','b'),('b','c'),('c','d'),('d','l'),('d','m'),('c','f'),('f','n'),
@@ -471,6 +496,18 @@ A_star_result, end_data = A_star(g, g.get_node((1,9)), g.get_node((8,3)),Grid.gr
 path = {node.id: "@" for node in construct_path(A_star_result, g.get_node((8,3)))}
 path.update({(1,9):'S', (8,3):'F'})
 g.ascii_print(mapping=path)
+
+AL = {
+    'A': {'B': 2, 'C': 3},
+    'B': {'A': 2, 'C': 1, 'D': 1, 'E': 4},
+    'C': {'A': 3, 'B': 1, 'F': 5},
+    'D': {'B': 1, 'E': 1},
+    'E': {'B': 4, 'D': 1, 'F': 1},
+    'F': {'C': 5, 'E': 1, 'G': 1},
+    'G': {'F': 1},
+}
+H = Graph.from_adjacency_list(AL)
+
     # g = Graph()
     # a = g.add_node('a')
     # b = g.add_node('b')

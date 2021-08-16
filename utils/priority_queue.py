@@ -4,7 +4,7 @@ from typing import TypeVar, List, Tuple, Generic
 
 T = TypeVar('T')
 
-class PriorityQueue(object):
+class PriorityQueue(Generic[T]):
     """A priority queue.
     """
     def __init__(self, elements=None):
@@ -17,6 +17,8 @@ class PriorityQueue(object):
         hq.heappush(self.elements, (priority, item))
     def get(self) -> T:
         return hq.heappop(self.elements)[1]
+    def get_with_priority(self) -> Tuple[float, T]:
+        return hq.heappop(self.elements)
 
 class Queue(Generic[T]):
     def __init__(self):
