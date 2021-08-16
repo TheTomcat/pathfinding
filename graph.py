@@ -4,6 +4,8 @@ from collections import deque
 from functools import total_ordering
 import math
 
+import disjoint_set
+
 from utils.priority_queue import PriorityQueue, Queue
 from utils.documented_by import is_documented_by
 
@@ -84,7 +86,9 @@ class Graph(object):
     #     """Select a random node from this graph"""
     #     return next(iter(self._nodes.values()))
     def add_node(self, id: ID) -> Node:
-        "Create a node by ID and add it to the graph. Return the new node"
+        "Create a node by ID and add it to the graph. Return the new node. If it already exists, return that node"
+        if id in self._nodes:
+            return self._nodes[id]
         n = Node(id)
         self._nodes[id] = n
         return n
@@ -420,7 +424,24 @@ def prim(g: Graph, start: Node):
         edges.put((current, to), weight)
         # https://bradfieldcs.com/algos/graphs/prims-spanning-tree-algorithm/
     while not edges.is_empty():
-        edges,
+        edges
+
+def kruskal_MST(g: Graph, start: Node) -> Tuple[Graph, float]:
+    mst = Graph(weighted=True, directed=False)
+    dsu = disjoint_set.DisjointSet()
+    cost = 0
+    # Create edge list
+    edge_list = [(w,a,b) for (a,b,w) in g.edges()]
+    edge_list.sort()
+    for w,a,b in edge_list:
+        if not dsu.connected(a,b):
+            cost += w
+            mst.add_node(a.id)
+            mst.add_node(b.id)
+            mst.add_edge(a.id, b.id, w)
+            dsu.merge(a,b)
+    return mst, cost
+
         
 
 
