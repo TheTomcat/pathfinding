@@ -1,5 +1,5 @@
 # graph.py
-from typing import Any, Generator, Hashable, Dict, Iterable, List, Protocol, Sequence, Set, Tuple, TypeVar, Optional, Callable, TypedDict, Union
+from typing import Any, Generator, Hashable, Dict, ItemsView, Iterable, List, Protocol, Sequence, Set, Tuple, TypeVar, Optional, Callable, TypedDict, Union
 from collections import deque
 from functools import total_ordering
 import math
@@ -54,6 +54,10 @@ class NodeData(TypedDict):
     parent: Optional[Node]
     depth: int
 
+
+Weight = Union[float, int]
+Edge = Union[Tuple[ID,ID],Tuple[ID,ID,Weight]]
+
 Path = List[Node]
 SearchResult = Dict[Node, NodeData] 
 ExtendedSearchResult = Tuple[SearchResult, Node]
@@ -80,12 +84,16 @@ class Graph(object):
         return self._directed
     def __iter__(self):
         return iter(self._nodes.values())
+    def nodes(self) -> Generator[Tuple[ID,Node], None, None]:
+        yield from self._nodes.items()
     def nodes_by_id(self) -> Generator[ID, None, None]:
+        print("Depreciated call nodes_by_id, instead use for id, node in nodes()")
         yield from self._nodes.keys()
     def nodes_by_node(self) -> Generator[Node, None, None]:
+        print("Depreciated call nodes_by_node, instead use for id, node in nodes()")
         yield from self._nodes.values()
     def edges(self) -> Generator[Tuple[Node, Node, float], None, None]:
-        for node in self.nodes_by_node():
+        for _, node in self.nodes():
             for neighbour, weight in node.neighbours():
                 yield (node, neighbour, weight)
     # def select_node(self) -> Node:
@@ -193,11 +201,19 @@ class Graph(object):
         return g
     
     @classmethod
-    def from_adjacency_list(cls, adj_list: Dict[str,Dict[str,float]], weighted: bool=True, directed:bool=True) -> 'Graph':
+    def from_adjacency_list(cls, adj_list: Dict[str,Sequence], weighted: bool=True, directed:bool=True) -> 'Graph':
         g = cls(weighted=weighted, directed=directed)
         for node, adjacents in adj_list.items():
             g.add_node(node)
-            for neighbour, weight in adjacents.items():
+            if isinstance(adjacents, dict):
+                loop_over: Union[ItemsView,list] = adjacents.items()
+            elif isinstance(adjacents, list):
+                loop_over = adjacents
+            for e in loop_over:
+                if weighted:
+                    neighbour, weight = e
+                else:
+                    neighbour = e
                 g.add_node(neighbour)
                 if weighted:
                     g.add_edge(node, neighbour, weight)
@@ -304,7 +320,7 @@ def _search(graph: Graph, start: Node, end: EndCondition=None, depth_first=False
     visited_from: SearchResult = {}#Dict[Node, Optional[Node]] = {}
     visited_from[start] = {'parent':None, 'cost':0, 'depth':0}
     print(f'Starting {"depth" if depth_first else "bredth"}-first search...')
-    while not queue.empty():
+    while not queue.is_empty():
         current = queue.get()
         print(current.id, end=" ")
         for neighbour, weight in current.neighbours():
@@ -400,20 +416,20 @@ def construct_path(visited_from: SearchResult, from_node: Node) -> Path:
 
 def floyd_warshall(g: Graph) -> Dict[ID, Dict[ID,float]]:
     # construct dist matrix V x V initialised to infinity
-    dist = {n:{m:math.inf for m in g.nodes_by_id()} for n in g.nodes_by_id()}
+    dist = {n:{m:math.inf for m,_ in g.nodes()} for n,_ in g.nodes()}
     for n1,n2,w in g.edges():
         dist[n1.id][n2.id] = w
-    for n in g.nodes_by_id():
+    for n, _ in g.nodes():
         dist[n][n] = 0
-    for k in g.nodes_by_id():
-        for i in g.nodes_by_id():
-            for j in g.nodes_by_id():
+    for k,_ in g.nodes():
+        for i, _ in g.nodes():
+            for j, _ in g.nodes():
                 dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
     return dist
 
 def floyd_warshall_with_path(g: Graph):
     # construct dist matrix V x V initialised to infinity
-    dist = {n:{m:math.inf for m in g.nodes_by_id()} for n in g.nodes_by_id()}
+    dist = {n:{m:math.inf for m,_ in g.nodes()} for n,_ in g.nodes()}
     next: Dict[ID, Dict[ID, Optional[Node]]] = {n:{m:None for m in g.nodes_by_id()} for n in g.nodes_by_id()}
     for n1,n2,w in g.edges():
         dist[n1.id][n2.id] = w
@@ -506,7 +522,7 @@ AL = {
     'F': {'C': 5, 'E': 1, 'G': 1},
     'G': {'F': 1},
 }
-H = Graph.from_adjacency_list(AL)
+H = Graph.from_adjacency_list(AL, directed=False) # type: ignore
 
     # g = Graph()
     # a = g.add_node('a')
