@@ -7,6 +7,8 @@ from collections import Counter, defaultdict
 # Factors = Dict[int, int]
 
 class PossibleFactors(object):
+    """Simple iterator which yields 2 and then odd integers up to and including the sqrt(N).
+    For example: PossibleFactors(100) -> (2, 3, 5, 7, 9)"""
     def __init__(self, n: int):
         self._N: int = n
     def __iter__(self):
@@ -17,6 +19,7 @@ class PossibleFactors(object):
             i+=2
 
 def factorise(n):
+    """Calculate the prime factorisation of n, by brute force"""
     factors = defaultdict(int)
     for factor in PossibleFactors(n):
         while n % factor == 0:
@@ -27,6 +30,13 @@ def factorise(n):
     return factors
 
 class Factor(object):
+    """This is a class that attempts to simplify the calculation of large factorial equations often used in combinatorics by 
+    instead representing the factorial as its prime factors raised to powers. Multiplication and division simply adjust the 
+    powers to which the prime factors are raised. 
+
+    Args:
+        object ([type]): [description]
+    """
     def __init__(self, n=None):
         self._factors = defaultdict(int)
         if n is not None:
@@ -69,18 +79,30 @@ class Factorial(Factor):
                     self._factors[factor] += power
 
 def comb(n, k):
+    "N choose K"
     a = Factorial(n)
     b = Factorial(k)
     c = Factorial(n-k)
     return a/(b*c)
 
 def perm(n,k):
+    "N P K"
     a = Factorial(n)
     c = Factorial(n-k)
     return a/c
 
 def multi(n,*args):
+    """Multinomial operator:
+    ( n         ) = n!/(arg1! * arg2! * ...)
+    ( arg1 arg2 )"""
     n = Factorial(n)
     p = [Factorial(i) for i in args]
     P = reduce(mul, p, Factor())
     return n/P
+
+def E(p:dict)->float:
+    return sum(key*val for key,val in p.items())
+
+def Var(p:dict)->float:
+    return sum(key*key*val for key, val in p.items()) - E(p)**2
+

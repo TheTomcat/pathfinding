@@ -4,7 +4,7 @@ from collections import Counter
 from random import Random
 import datetime as dt
 
-class TestUtil(unittest.TestCase):
+class TestDummyData(unittest.TestCase):
     def test_dates_between(self):
         rng = Random()
         start = '1970-01-01'

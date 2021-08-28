@@ -23,7 +23,7 @@ class PriorityQueue(Generic[T]):
 class Queue(Generic[T]):
     def __init__(self):
         self.elements = deque()
-    def empty(self) -> bool:
+    def is_empty(self) -> bool:
         return not self.elements
     def put(self, x: T):
         self.elements.append(x)
