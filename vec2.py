@@ -1,6 +1,7 @@
 import math
-from typing import Any, Callable, List, Tuple, Union
+from typing import Any, Callable, List, Tuple, Union, Deque
 from dynamic_element import DynamicPoint, DynamicObserver, Subject
+from collections import deque
 
 Number = Union[float, int]
 
@@ -17,11 +18,33 @@ def unit(a: 'Vec2'):
     mag = a.mag()
     return lambda : (a.x/mag, a.y/mag)
 
+def factory(func):
+    def inner2(*arguments):
+        def inner():
+            return func(*arguments)
+        return inner
+    return inner2
+# Decorate a function
+# Or use factory(func)(argument1, arg2, arg3...) -> function
+@factory
+def addi(a, b):
+    return a+b
+
 class Vec2(DynamicPoint):
     def __init__(self, x: float, y: float, lazy=False):
         super().__init__(x, y)
         self._lazy = lazy
         self._stack: List[Tuple[Callable, List[Any]]] = []
+        self._queue: Deque[Tuple[Callable, List]] = deque()
+
+    def enqueue(self, action, *arguments, reset=True):
+        self._stack.append((action, arguments))
+
+    def resolve_stack(self):
+        # while len(self._queue) > 0:
+        #     action, arguments = self._queue.popleft()
+        for action, arguments in self._queue:
+            self._x, self._y = action(self._x, self._y, *arguments)
 
     def update(self, subject: 'Subject', *args, **kwargs):
         if self._lazy:

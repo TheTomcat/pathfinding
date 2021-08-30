@@ -3,7 +3,7 @@ from typing import List
 
 from dynamic_element import BaseDynamicSubject, DynamicObserver, LazyObserver, Subject
 from vec2 import Vec2
-from utils import window
+from utils.window import window
 
 class Poly(BaseDynamicSubject, LazyObserver):
     def __init__(self, *points: Vec2):
@@ -13,12 +13,15 @@ class Poly(BaseDynamicSubject, LazyObserver):
             point.register_observer(self)
         super().__init__()
     def update(self, subject: Subject, *args, **kwargs):
-        if not self._fresh:
-            self.compute_area()
+        pass
+        # if not self._fresh:
+        #     self.compute_area()
     def area(self):
-        self.update()
+        self.compute_area()
         return self._area
     def compute_area(self):
+        if self._fresh:
+            return
         tot = 0
         tot += sum(p.x*q.y - q.x*p.y for p,q in window(self._points))
         tot += (self._points[-1].x*self._points[0].y)
