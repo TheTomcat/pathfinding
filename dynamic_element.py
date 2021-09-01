@@ -1,21 +1,12 @@
 from typing import Callable, List, Protocol, Tuple, runtime_checkable
+import logging
 
-"""Implements a subject-observer pattern whereupon the modification of the subject (in this case, a point,
-results in an update command being set to all observers. If they are lazy they can flag themself as stale
-or they can immediately update. Easy. Inherit from BaseDynamicSubject to have subscribers, and for observers 
-implement an update function f(subject, *args, **kwargs) which makes appropriate changes. 
 
-Event messages can be sent from subject to observer via the update function. The subject keeps a record of 
-all subscribed observers, but the observers need not keep a record of what subject they are subscribed to.
-The subject is passed as the first argument of observer.update()"""
+
 
 @runtime_checkable
 class DynamicObserver(Protocol):
     def update(self, subject: 'Subject', *args, **kwargs): ...
-
-class LazyObserver(object):
-    def recalculate(self): ...
-    _fresh: bool = True
 
 @runtime_checkable
 class Subject(Protocol):
@@ -25,6 +16,14 @@ class Subject(Protocol):
     _observers: List[DynamicObserver]
 
 class BaseDynamicSubject(object):
+    """Implements a subject-observer pattern whereupon the modification of the subject (in this case, a point,
+    results in an update command being set to all observers. If they are lazy they can flag themself as stale
+    or they can immediately update. Easy. Inherit from BaseDynamicSubject to have subscribers, and for observers 
+    implement an update function f(subject, *args, **kwargs) which makes appropriate changes. 
+
+    Event messages can be sent from subject to observer via the update function. The subject keeps a record of 
+    all subscribed observers, but the observers need not keep a record of what subject they are subscribed to.
+    The subject is passed as the first argument of observer.update()"""
     def __init__(self):
         self._dynamic=True
         self._observers: List[DynamicObserver] = []

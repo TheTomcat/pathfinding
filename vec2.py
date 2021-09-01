@@ -19,11 +19,11 @@ def unit(a: 'Vec2'):
     return lambda : (a.x/mag, a.y/mag)
 
 def factory(func):
-    def inner2(*arguments):
+    def middle(*arguments):
         def inner():
             return func(*arguments)
         return inner
-    return inner2
+    return middle
 # Decorate a function
 # Or use factory(func)(argument1, arg2, arg3...) -> function
 @factory
