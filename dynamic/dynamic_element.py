@@ -1,12 +1,9 @@
 from typing import Callable, List, Protocol, Tuple, runtime_checkable
 import logging
 
-
-
-
 @runtime_checkable
 class DynamicObserver(Protocol):
-    def update(self, subject: 'Subject', *args, **kwargs): ...
+    def handle_update(self, subject: 'Subject', *args, **kwargs): ...
 
 @runtime_checkable
 class Subject(Protocol):
@@ -29,13 +26,34 @@ class BaseDynamicSubject(object):
         self._observers: List[DynamicObserver] = []
     def notify_observers(self, *args, **kwargs):
         for observer in self._observers:
-            observer.update(self, *args, **kwargs)
+            observer.handle_update(self, *args, **kwargs)
     def register_observer(self, observer: DynamicObserver):
         self._observers.append(observer)
     def deregister_observer(self, observer: DynamicObserver):
         self._observers.append(observer)
 
+def internalise_arguments(func):
+    """Decorator which allows internalisation of arguments to a function 
+    so something like f(*args, **kwargs) -> Any is rescoped to 
+    f() -> Any.
+
+    Useful for recomputing the value of properties that have dependencies.    
+    """
+    def middle(*arguments):
+        def inner():
+            return func(*arguments)
+        return inner
+    return middle
+
 class DynamicPoint(BaseDynamicSubject):
+    """An example implementation of BaseDynamicSubject - a 2D coordinate with
+    x and y coordinates. Access to the attributes _x and _y is managed through
+    getters and setters which accordingly update the observers when a change occurs. 
+    The event sent can be modified as needed. This is an example.
+
+    Args:
+        BaseDynamicSubject ([type]): [description]
+    """
     def __init__(self, x: float, y: float):
         super().__init__()
         self._x = x
@@ -68,7 +86,7 @@ if __name__ == "__main__":
         def __init__(self, p: Subject, label):
             self.label = label
             p.register_observer(self)
-        def update(self, subject: Subject, *args, **kwargs):
+        def handle_update(self, subject: Subject, *args, **kwargs):
             print(f"I am {self.label} and have been notified - got {args} and {kwargs} from {subject}")
 
     subject = DynamicPoint(2,2)

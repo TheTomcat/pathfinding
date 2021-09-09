@@ -3,7 +3,7 @@ from functools import wraps
 import logging
 import time
 
-class RefreshableMixin(abc.ABC):
+class CacheableMixin(abc.ABC):
     def mark_as_stale(obj, args=None):
         """Marks the refreshable properties contained within the class as stale. 
 
@@ -17,15 +17,15 @@ class RefreshableMixin(abc.ABC):
         for arg in lst:
             setattr(obj, f"_{arg}_is_fresh", False)
 
-class refreshable_property:
-    """Adds the @refreshable_property decorator.
+class cacheable_property:
+    """Adds the @cacheable_property decorator.
 
     This allows a class method to be cached and optionally recalculated as needed, when it
     becomes stale.
 
     Usage:
     class TestClass(object):
-        @refreshable_property
+        @cacheable_property
         def an_expensive_function(self):
             time.sleep(4)
             return 2
@@ -95,12 +95,12 @@ class refreshable_property:
 
 if __name__ == "__main__":
     class A:
-        @refreshable_property
+        @cacheable_property
         def hello(self):
             time.sleep(2)
             return 4
         
-        @refreshable_property
+        @cacheable_property
         def hey(self):
             time.sleep(2)
             return 2
