@@ -1,41 +1,23 @@
 import math
 from typing import Any, Callable, List, Tuple, Union, Deque
-from dynamic_element import DynamicPoint, DynamicObserver, Subject
+from dynamic.dynamic_element import DynamicPoint, Subject, internalise_arguments
 from collections import deque
 
 Number = Union[float, int]
 
-def add(a: 'Vec2', b: 'Vec2') -> Callable:
-    """Function factory returning a function that computes the sum of two vectors"""
-    return lambda : (a.x+b.x, a.y+b.y)
+@internalise_arguments
+def add(a: 'Vec2', b: 'Vec2'):
+    return a.x+b.x, a.y+b.y
 
-def mul(a: 'Vec2', b: Number) -> Callable:
-    """Function factory returning a function that computes a scaled vector"""
-    return lambda : (a.x*b, a.y*b)
-
-def unit(a: 'Vec2'):
-    """Function factory creating a unit vector"""
-    mag = a.mag()
-    return lambda : (a.x/mag, a.y/mag)
-
-def factory(func):
-    def middle(*arguments):
-        def inner():
-            return func(*arguments)
-        return inner
-    return middle
-# Decorate a function
-# Or use factory(func)(argument1, arg2, arg3...) -> function
-@factory
-def addi(a, b):
-    return a+b
+@internalise_arguments
+def mul(a: 'Vec2', b: Number):
+    return a.x*b, a.y*b
 
 class Vec2(DynamicPoint):
     def __init__(self, x: float, y: float, lazy=False):
         super().__init__(x, y)
         self._lazy = lazy
         self._stack: List[Tuple[Callable, List[Any]]] = []
-        self._queue: Deque[Tuple[Callable, List]] = deque()
 
     def enqueue(self, action, *arguments, reset=True):
         self._stack.append((action, arguments))
@@ -46,15 +28,15 @@ class Vec2(DynamicPoint):
         for action, arguments in self._queue:
             self._x, self._y = action(self._x, self._y, *arguments)
 
-    def update(self, subject: 'Subject', *args, **kwargs):
+    def handle_update(self, subject: 'Subject', *args, **kwargs):
         if self._lazy:
             self._fresh = False
         else:
             self.recompute()
     
     def recompute(self):
-        for action, func_factory in self._stack:
-            action(*func_factory)
+        for action, func in self._stack:
+            action(*func)
 
     def update_self(self, func: Callable[[],Tuple[float,float]]):
         """Update my own values using the function func() -> (x,y)"""

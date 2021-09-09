@@ -1,21 +1,21 @@
 import math
 from typing import Dict, List
 
-from dynamic_element import BaseDynamicSubject, Subject
-from refreshable_property import RefreshableMixin, refreshable_property
+from dynamic.dynamic_element import BaseDynamicSubject, Subject
+from dynamic.cacheable_property import CacheableMixin, cacheable_property
 from vec2 import Vec2
 from utils.window import window
 
-class Poly(RefreshableMixin):
+class Poly(CacheableMixin):
     def __init__(self, *points: Vec2):
         self._points = [point for point in points]
         for point in points:
             point.register_observer(self)
 
-    def update(self, subject: Subject, *args, **kwargs):
+    def handle_update(self, subject: Subject, *args, **kwargs):
         self.mark_as_stale()
 
-    @refreshable_property
+    @cacheable_property
     def area(self):
         """The area calculation"""
         tot = 0
@@ -24,7 +24,7 @@ class Poly(RefreshableMixin):
         tot -= (self._points[0].x*self._points[-1].y)
         return math.fabs(0.5*tot)
 
-    @refreshable_property 
+    @cacheable_property 
     def bounding_box(self):
         xmin=ymin=math.inf
         xmax=ymax=-math.inf
