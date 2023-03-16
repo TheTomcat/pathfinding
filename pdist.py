@@ -72,7 +72,7 @@ class PDist(object):
         #         outcomes[a+b] = w
         # return PDist(outcomes)
     
-    def map_outcomes(pdist: "PDist", f=sumt) -> "PDist":
+    def map_outcomes(self, f=sumt) -> "PDist":
         """Take a PDist and map the 'outcome' according to some function f. Some possibilities involve:
         pdist.adv - takes the max of the outcomes
         pdist.disadv - takes the min of the outcomes
@@ -84,10 +84,10 @@ class PDist(object):
             PDist: as the input, but {outcome: weight,... } -> {f(outcome): weight}
         """
         output: dict = defaultdict(float)
-        for outcome in pdist._outcomes:
+        for outcome in self._outcomes:
             # fo = f(outcome)
             # if fo in output:
-            output[f(outcome)] += pdist._outcomes[outcome]
+            output[f(outcome)] += self._outcomes[outcome]
 
         return PDist(output)
 
