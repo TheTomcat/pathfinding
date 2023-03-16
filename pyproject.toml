@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "blobsim"
+version = "0.1.0"
+description = ""
+authors = ["Thomas Vos <vossy01@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+disjoint-set = "^0.7.3"
+numpy = "^1.22.0"
+pybind11 = "^2.9.0"
+cffi = "^1.15.0"
+Mako = "^1.1.6"
+
+[tool.poetry.dev-dependencies]
+mypy = "^0.930"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
