@@ -1,5 +1,7 @@
 # graph.py
-from typing import Any, Generator, Hashable, Dict, ItemsView, Iterable, List, Protocol, Sequence, Set, Tuple, TypeVar, Optional, Callable, TypedDict, Union
+from typing import (Generator, Hashable, Dict, ItemsView, Iterable, 
+        List, Protocol, Sequence, Set, Tuple, TypeVar, Optional, 
+        Callable, TypedDict, Union)
 from collections import deque
 from functools import total_ordering
 import math
