@@ -28,7 +28,7 @@ class cacheable_property:
         @cacheable_property
         def an_expensive_function(self):
             time.sleep(4)
-            return 2
+            return 4
 
     p = TestClass()
     p.an_expensive_function()

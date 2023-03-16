@@ -90,7 +90,7 @@ if __name__ == "__main__":
             print(f"I am {self.label} and have been notified - got {args} and {kwargs} from {subject}")
 
     subject = DynamicPoint(2,2)
-    observers = []
+    #observers = []
     for i in range(10):
-        observers.append(DumbObserver(subject, str(i)))
+        DumbObserver(subject, str(i))
     subject.x = 4

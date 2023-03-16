@@ -1,0 +1,104 @@
+id,address,url,size,beds,baths,cars,price,sold_on,property_type
+1,"5/68 Bellevue Terrace, St Lucia",/sold/property-unit-qld-st+lucia-137810214,, 2, 2, 3,"$435,000",19 Nov 2021,Unit
+2,"6/59 Bellevue Terrace, St Lucia",/sold/property-unit-qld-st+lucia-137535850,, 2, 1, 2,"$418,000",19 Nov 2021,Unit
+3,"2/59 Bellevue Terrace, St Lucia",/sold/property-unit-qld-st+lucia-137534754,, 2, 1, 2,"$415,000",18 Nov 2021,Unit
+4,"2/55  Bishop Street, St Lucia",/sold/property-unit-qld-st+lucia-132088490,, 2, 1, 1,Contact agent,15 Nov 2021,Unit
+5,"2/56 Bellevue Terrace, St Lucia",/sold/property-apartment-qld-st+lucia-137778462, 118, 3, 2, 2,"$1,100,000",11 Nov 2021,Apartment
+6,"7/164 Macquarie Street, St Lucia",/sold/property-apartment-qld-st+lucia-137207286,, 3, 2, 1,"$753,800",10 Nov 2021,Apartment
+7,"201/46 Warren Street, St Lucia",/sold/property-apartment-qld-st+lucia-136908550, 102, 2, 2, 1,Contact agent,09 Nov 2021,Apartment
+8,"9/194 Carmody Road, St Lucia",/sold/property-unit-qld-st+lucia-137824998,, 3, 2,,"$630,000",08 Nov 2021,Unit
+9,"50/139 Macquarie Street, St Lucia",/sold/property-unit-qld-st+lucia-137112454, 103, 2, 2, 1,"$480,000",08 Nov 2021,Unit
+10,"13/136 Macquarie Street, St Lucia",/sold/property-apartment-qld-st+lucia-136806174,, 3, 1, 1,"$755,000",05 Nov 2021,Apartment
+11,"1/25 Raven Street, St Lucia",/sold/property-unit-qld-st+lucia-137355614,, 3, 1, 2,"$450,000",04 Nov 2021,Unit
+12,"64/139 Macquarie Street, St Lucia",/sold/property-apartment-qld-st+lucia-137123958,, 3, 2, 1,Contact agent,01 Nov 2021,Apartment
+13,"7/30 Ryans Road, St Lucia",/sold/property-unit-qld-st+lucia-137191402,, 2, 1, 1,"$428,500",01 Nov 2021,Unit
+14,"16/182 Carmody Road, St Lucia",/sold/property-apartment-qld-st+lucia-136386518,, 2, 2, 1,Contact agent,29 Oct 2021,Apartment
+15,"19/182 Carmody Road, St Lucia",/sold/property-unit-qld-st+lucia-136977426, 134, 2, 2, 1,Contact agent,19 Oct 2021,Unit
+16,"3/11 Munro Street, St Lucia",/sold/property-unit-qld-st+lucia-137503058,, 3, 2, 2,"$531,500",18 Oct 2021,Unit
+17,"32/18 Gailey Road, St Lucia",/sold/property-apartment-qld-st+lucia-137786998, 102, 2, 2, 1,"$490,000",18 Oct 2021,Apartment
+18,"102/68-72 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-137560358, 79, 1, 1, 1,"$448,250",18 Oct 2021,Apartment
+19,"5/77 Warren Street, St Lucia",/sold/property-unit-qld-st+lucia-135830946,, 2, 1, 1,"$380,000",15 Oct 2021,Unit
+20,"9/30 Ryans Road, St Lucia",/sold/property-apartment-qld-st+lucia-137459758, 108, 2, 1, 1,"$465,000",13 Oct 2021,Apartment
+21,"202/46 Warren Street, St Lucia",/sold/property-apartment-qld-st+lucia-136908354, 95, 2, 2, 1,Contact agent,11 Oct 2021,Apartment
+22,"12/104 Gailey Road, St Lucia",/sold/property-unit-qld-st+lucia-136892038,, 2, 1, 1,Contact agent,11 Oct 2021,Unit
+23,"6/225 Carmody Road, St Lucia",/sold/property-unit-qld-st+lucia-137038970,, 2, 1, 1,"$397,000",08 Oct 2021,Unit
+24,"5/52 Bellevue Terrace, St Lucia",/sold/property-unit-qld-st+lucia-137283066, 124, 2, 1, 1,"$470,000",06 Oct 2021,Unit
+25,"3/122 Macquarie Street, St Lucia",/sold/property-apartment-qld-st+lucia-137430322,, 2, 1, 1,"$622,000",05 Oct 2021,Apartment
+id,address,url,size,beds,baths,cars,price,sold_on,property_type
+26,"5/104 Gailey Road, St Lucia",/sold/property-unit-qld-st+lucia-137144290,, 2, 1, 2,"$317,000",05 Oct 2021,Unit
+27,"1/96 Dell Road, St Lucia",/sold/property-unit-qld-st+lucia-137336138,, 3, 2, 1,"$640,000",03 Oct 2021,Unit
+28,"23/18 Gailey Road, St Lucia",/sold/property-unit-qld-st+lucia-137095806, 90, 2, 2, 1,"$490,000",01 Oct 2021,Unit
+29,"2/36 Sandford Street, St Lucia",/sold/property-unit-qld-st+lucia-136819666,, 4, 2, 1,"$1,220,000",30 Sep 2021,Unit
+30,"18/2 Laurence Street, St Lucia",/sold/property-apartment-qld-st+lucia-136902606,, 2, 2, 1,"$550,000",29 Sep 2021,Apartment
+31,"4/64 Sisley Street, St Lucia",/sold/property-unit-qld-st+lucia-137333046,, 2, 2, 2,"$490,000",29 Sep 2021,Unit
+32,"Unit 2/46 Mitre St, St Lucia",/sold/property-unit-qld-st+lucia-136708066, 118, 2, 1, 1,"$398,500",28 Sep 2021,Unit
+33,"7/194 Carmody Road, St Lucia",/sold/property-apartment-qld-st+lucia-137677794, 213, 3, 2, 2,"$650,000",25 Sep 2021,Apartment
+34,"5/20 Durham Street, St Lucia",/sold/property-apartment-qld-st+lucia-135733650, 121, 2, 2, 1,"$470,000",22 Sep 2021,Apartment
+35,"35/82 Sandford Street, St Lucia",/sold/property-apartment-qld-st+lucia-136987122, 174, 3, 2, 2,"$1,199,000",21 Sep 2021,Apartment
+36,"4/96 Dell Road, St Lucia",/sold/property-unit-qld-st+lucia-136826850,, 3, 2, 1,"$610,000",21 Sep 2021,Unit
+37,"5/59 Bellevue Terrace, St Lucia",/sold/property-unit-qld-st+lucia-137265602,, 2, 1, 1,"$410,000",21 Sep 2021,Unit
+38,"6/74 Gailey Road, St Lucia",/sold/property-apartment-qld-st+lucia-137192902,, 1, 1, 1,"$470,000",20 Sep 2021,Apartment
+39,"3/194 Carmody Road, St Lucia",/sold/property-unit-qld-st+lucia-137446198,, 3, 2, 2,"$600,000",17 Sep 2021,Unit
+40,"4/194 Carmody, St Lucia",/sold/property-unit-qld-st+lucia-136977194,, 3, 2, 2,"$588,000",17 Sep 2021,Unit
+41,"106/131 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-137073590, 307, 3, 2, 2,"$1,051,000",16 Sep 2021,Apartment
+42,"7/74 Dengate Lane, St Lucia",/sold/property-apartment-qld-st+lucia-137212950,, 3, 2, 2,"$865,000",14 Sep 2021,Apartment
+43,"6/64 Warren Street, St Lucia",/sold/property-unit-qld-st+lucia-137205206,, 2, 1, 1,"$390,000",14 Sep 2021,Unit
+44,"1/69 Durham Street, St Lucia",/sold/property-apartment-qld-st+lucia-136361102, 79, 2, 2, 2,Contact agent,03 Sep 2021,Apartment
+45,"14/39  Depper Street, St Lucia",/sold/property-apartment-qld-st+lucia-137135638,, 3, 2, 2,"$1,080,000",01 Sep 2021,Apartment
+46,"1/29 Durham Street, St Lucia",/sold/property-unit-qld-st+lucia-137030554, 97, 2, 2, 1,"$495,000",31 Aug 2021,Unit
+47,"100/300 Sir Fred Schonell Drive, St Lucia",/sold/property-unit-qld-st+lucia-136165406, 62, 1, 1, 1,"$315,000",31 Aug 2021,Unit
+48,"23/31 Bishop Street, St Lucia",/sold/property-apartment-qld-st+lucia-137133598,, 2, 2, 1,"$442,000",30 Aug 2021,Apartment
+49,"308/68-72 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-137098610, 133, 3, 2, 1,"$945,000",25 Aug 2021,Apartment
+50,"101/68-72 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-137098434, 121, 3, 2,,"$789,000",25 Aug 2021,Apartment
+id,address,url,size,beds,baths,cars,price,sold_on,property_type
+51,"206/68-72 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-137102622, 119, 2, 2, 1,"$637,250",25 Aug 2021,Apartment
+52,"12/56 Bellevue Terrace, St Lucia",/sold/property-unit-qld-st+lucia-136662438, 136, 2, 2, 1,"$610,000",23 Aug 2021,Unit
+53,"5/5 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-136412662,, 1, 1, 1,"$264,000",23 Aug 2021,Apartment
+54,"8/30 Sisley Street, St Lucia",/sold/property-unit-qld-st+lucia-137055090,, 3, 1, 2,"$535,000",21 Aug 2021,Unit
+55,"11/8 Carr Street, St Lucia",/sold/property-unit-qld-st+lucia-136656490,, 3, 2, 1,"$670,000",16 Aug 2021,Unit
+56,"2/8 Prospect Terrace, St Lucia",/sold/property-apartment-qld-st+lucia-136825134, 294, 3, 2, 2,"$2,100,000",13 Aug 2021,Apartment
+57,"4/58 Sisley Street, St Lucia",/sold/property-unit-qld-st+lucia-136736666,, 3, 2, 2,"$775,000",13 Aug 2021,Unit
+58,"26/36 Jerdanefield Road, St Lucia",/sold/property-unit-qld-st+lucia-136889570,, 3, 2, 1,"$770,000",13 Aug 2021,Unit
+59,"20/182 Carmody Road, St Lucia",/sold/property-unit-qld-st+lucia-136883434, 135, 2, 2, 1,"$583,000",12 Aug 2021,Unit
+60,"6/36 Sandford St, St Lucia",/sold/property-unit-qld-st+lucia-137093518, 160, 3, 2, 2,"$1,285,000",11 Aug 2021,Unit
+61,"5/50 Mitre Street, St Lucia",/sold/property-unit-qld-st+lucia-136833758,, 2, 1, 2,"$328,000",07 Aug 2021,Unit
+62,"5/9 Durham Street, St Lucia",/sold/property-unit-qld-st+lucia-136437654,, 2, 2, 1,Contact agent,03 Aug 2021,Unit
+63,"6/23 Bishop Street, St Lucia",/sold/property-apartment-qld-st+lucia-136850786,, 2, 2, 1,"$690,000",30 Jul 2021,Apartment
+64,"Unit 4 136 Macquarie Street, St Lucia",/sold/property-unit-qld-st+lucia-136831022,, 2, 1, 1,"$660,000",30 Jul 2021,Unit
+65,"4/66 Mitre Street, St Lucia",/sold/property-unit-qld-st+lucia-136698594,, 2, 1, 1,"$370,000",30 Jul 2021,Unit
+66,"21/31 Bishop Street, St Lucia",/sold/property-unit-qld-st+lucia-136601334,, 2, 2, 1,"$420,000",29 Jul 2021,Unit
+67,"14/57 Mitre Street, St Lucia",/sold/property-unit-qld-st+lucia-136276774,, 2, 2, 1,"$400,000",29 Jul 2021,Unit
+68,"33/12 Bryce Street, St Lucia",/sold/property-apartment-qld-st+lucia-136431946,, 2, 1, 1,"$450,000",23 Jul 2021,Apartment
+69,"11/36 Jerdanefield Road, St Lucia",/sold/property-apartment-qld-st+lucia-135958250,, 3, 2, 1,"$677,000",22 Jul 2021,Apartment
+70,"2/69 Durham Street, St Lucia",/sold/property-unit-qld-st+lucia-136418798, 97, 2, 2, 2,"$470,000",20 Jul 2021,Unit
+71,"Unit 1/280 Sir Fred Schonell Dr, St Lucia",/sold/property-unit-qld-st+lucia-136344150,, 4, 2, 1,"$585,300",12 Jul 2021,Unit
+72,"7/58 Mitre Street, St Lucia",/sold/property-unit-qld-st+lucia-136547942,, 2, 2, 1,"$435,000",08 Jul 2021,Unit
+73,"2/27 The Esplanade, St Lucia",/sold/property-apartment-qld-st+lucia-135727894, 12, 2, 1, 1,"$385,000",08 Jul 2021,Apartment
+74,"1/63 Macquarie Street, St Lucia",/sold/property-unit-qld-st+lucia-135798442,, 2, 2, 1,"$405,000",05 Jul 2021,Unit
+75,"6/8 Prospect Terrace, St Lucia",/sold/property-apartment-qld-st+lucia-135000254, 300, 3, 2, 2,"$2,050,000",01 Jul 2021,Apartment
+id,address,url,size,beds,baths,cars,price,sold_on,property_type
+76,"5/37 Sisley Street, St Lucia",/sold/property-unit-qld-st+lucia-136361174,, 3, 1, 1,"$530,000",01 Jul 2021,Unit
+77,"1/66-68 Sisley Street, St Lucia",/sold/property-apartment-qld-st+lucia-136459698,, 3, 2, 2,"$900,000",29 Jun 2021,Apartment
+78,"4/57 Brisbane Street, St Lucia",/sold/property-unit-qld-st+lucia-136482130, 110, 2, 1, 1,"$400,000",29 Jun 2021,Unit
+79,"8/16 Gailey Road, St Lucia",/sold/property-apartment-qld-st+lucia-136369142,, 2, 1, 1,"$335,000",28 Jun 2021,Apartment
+80,"37/72 Sandford Street, St Lucia",/sold/property-apartment-qld-st+lucia-136128994,, 3, 2, 2,"$1,025,000",24 Jun 2021,Apartment
+81,"8/34 Mitre Street, St Lucia",/sold/property-apartment-qld-st+lucia-135857646,, 2, 1, 2,"$375,000",24 Jun 2021,Apartment
+82,"307/68-72 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-136611566, 143, 3, 2,,"$911,000",23 Jun 2021,Apartment
+83,"207/68-72 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-136611498, 119, 3, 2,,"$810,000",23 Jun 2021,Apartment
+84,"201/68-72 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-136611670, 107, 2, 2,,"$605,000",23 Jun 2021,Apartment
+85,"211/68-72 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-136611762, 9.29, 2, 2, 1,"$605,000",23 Jun 2021,Apartment
+86,"103/68-72 Sir Fred Schonell Drive, St Lucia",/sold/property-apartment-qld-st+lucia-136611822, 79, 1, 1, 1,"$448,500",23 Jun 2021,Apartment
+87,"5/22 Warren St, St Lucia",/sold/property-unit-qld-st+lucia-135382782, 115, 2, 1, 1,"$360,000",23 Jun 2021,Unit
+88,"7/57 Mitre Street, St Lucia",/sold/property-unit-qld-st+lucia-135466438,, 2, 2, 1,"$388,750",22 Jun 2021,Unit
+89,"4/208 Carmody Road, St Lucia",/sold/property-unit-qld-st+lucia-136206014,, 2, 1, 1,Contact agent,21 Jun 2021,Unit
+90,"6/52 Bishop Street, St Lucia",/sold/property-apartment-qld-st+lucia-136532582,, 2, 2, 1,"$595,000",14 Jun 2021,Apartment
+91,"49/12 Bryce Street, St Lucia",/sold/property-unit-qld-st+lucia-136158930,, 2, 1, 2,"$603,000",11 Jun 2021,Unit
+92,"203/46 Warren Street, St Lucia",/sold/property-apartment-qld-st+lucia-135137886, 102, 2, 2, 1,Contact agent,09 Jun 2021,Apartment
+93,"57/139 Macquarie Street, St Lucia",/sold/property-unit-qld-st+lucia-136259906, 117, 3, 2, 3,"$585,000",09 Jun 2021,Unit
+94,"Address available on request, St Lucia",/sold/property-apartment-qld-st+lucia-136602606, 136, 2, 1, 1,"$400,000",08 Jun 2021,Apartment
+95,"32/58 Sandford Street, St Lucia",/sold/property-unit-qld-st+lucia-136637042,, 3, 2, 3,"$1,100,000",01 Jun 2021,Unit
+96,"301/46 Warren Street, St Lucia",/sold/property-apartment-qld-st+lucia-134442002,, 3, 2, 2,"$880,900",31 May 2021,Apartment
+97,"22/12 Bryce, St Lucia",/sold/property-apartment-qld-st+lucia-136045634, 171, 3, 2, 2,"$980,000",27 May 2021,Apartment
+98,"3/8 Sandford Street, St Lucia",/sold/property-apartment-qld-st+lucia-128568590,, 3, 2, 1,"$843,000",24 May 2021,Apartment
+99,"4/320 Sir Fred Schonell Drive, St Lucia",/sold/property-unit-qld-st+lucia-136028622,, 2, 2, 1,"$460,000",24 May 2021,Unit
+100,"2/11 Sir Fred Schonell Drive, St Lucia",/sold/property-unit-qld-st+lucia-136336182, 132, 3, 2, 1,"$515,000",22 May 2021,Unit

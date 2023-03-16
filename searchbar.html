@@ -1,0 +1,64 @@
+<html>
+    <head>
+<script>
+get_names = () => {
+    console.log("Getting from server");
+    let p = [];
+    uris = [["https://www.dnd5eapi.co/api/monsters","monster"],
+            ["https://www.dnd5eapi.co/api/spells","spell"]];
+    uris.forEach(
+        element => {
+            console.log("Getting " + element[1]);
+            // p.push(...
+            console.log(collectTerms(element[0],element[1]));
+            // console.log(p);
+        }
+    );
+    return p;
+    // p = collectTerms("https://www.dnd5eapi.co/api/monsters", "monster");
+    // terms.push(...p);
+    // console.log(terms);
+}
+collectTerms = (uri, cat) => {
+    api_terms = []
+    fetch(uri)
+    .then(resp => resp.json())
+    .then(json => {
+        results = json.results;
+        results.forEach((result) => {
+            api_terms.push([result.name, result.url, cat]);
+        })
+    })
+    .catch(err => console.log(err));
+
+    return api_terms;
+}
+processChange = (e) => {
+    console.log(e.target.value);
+    results = document.getElementById("results");
+    terms.forEach(term => {
+        if (term[0].search(new Regex(e.target.value, "i")) > 0) {
+            el = document.createElement("li");
+            el.innerHTML = term;
+            results.appendChild(el);
+        }
+    })
+    console.log(text);
+}
+window.onload = () => {
+    document.getElementById("searchbar").addEventListener("keyup", processChange);
+    //get_names();
+};
+
+var terms = get_names();
+</script>
+    </head>
+    <body>
+        <div id="search-container">
+            <input id="searchbar" />
+        </div>
+        <div id="results">
+
+        </div>
+    </body>
+</html>
